@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -31,6 +33,14 @@ android {
     }
     buildFeatures{
         viewBinding true
+    }
+    flavorDimensions 'default'
+    productFlavors {
+        production {
+            dimension = 'default'
+            buildConfigField("String", "BASE_URL", "\"https://newsapi.org/v2/\"")
+            buildConfigField("String", "API_KEY", "\"850cd662f4df4e759e445deb6e640681\"")
+        }
     }
 }
 
@@ -65,7 +75,9 @@ dependencies {
     // Koin core features
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
-    implementation "io.insert-koin:koin-android-viewmodel:$koin_version"
     // Koin test features
     testImplementation "io.insert-koin:koin-test:$koin_version"
+    //room
+    implementation "androidx.room:room-ktx:2.3.0"
+    kapt "androidx.room:room-compiler:2.3.0"
 }
